@@ -29,5 +29,5 @@ jobs:
           
       - name: Update through WatchTower
         run: |
-          curl -H "Authorization: Bearer TEMPTOKEN" {{ vars.SERVER_IP }}:8080/v1/update
+          curl -H "Authorization: Bearer TEMPTOKEN" {{ vars.SERVER_IP }}:8888/v1/update
           
