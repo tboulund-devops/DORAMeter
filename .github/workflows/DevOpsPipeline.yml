@@ -28,6 +28,6 @@ jobs:
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/dora-meter:latest
           
       - name: Update through WatchTower
-        run: |
-          curl -H "Authorization: Bearer TEMPTOKEN" {{ vars.SERVER_IP }}:8888/v1/update
+        run: | # Notice the $ in front of the variable - it's neccessary because we're in a string
+          curl -H "Authorization: Bearer TEMPTOKEN" ${{ vars.SERVER_IP }}:8888/v1/update
           
