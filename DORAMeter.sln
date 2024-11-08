@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DORAMeter", "src\DORAMeter\DORAMeter.csproj", "{95ED3922-128A-478B-ABF8-800F7D18BDA7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "src\API\API.csproj", "{F9AEDA7D-DA66-463A-8937-E83B3B5ED220}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{95ED3922-128A-478B-ABF8-800F7D18BDA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{95ED3922-128A-478B-ABF8-800F7D18BDA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{95ED3922-128A-478B-ABF8-800F7D18BDA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9AEDA7D-DA66-463A-8937-E83B3B5ED220}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9AEDA7D-DA66-463A-8937-E83B3B5ED220}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9AEDA7D-DA66-463A-8937-E83B3B5ED220}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9AEDA7D-DA66-463A-8937-E83B3B5ED220}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
