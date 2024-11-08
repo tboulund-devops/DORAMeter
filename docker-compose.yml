@@ -10,6 +10,7 @@ services:
     image: containrrr/watchtower
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - ~/.docker/config.json:/config.json # Share the Docker config file with WatchTower for authentication
     command: --debug --http-api-update
     ports:
       - "8888:8080"
