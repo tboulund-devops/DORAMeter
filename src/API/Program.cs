@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Mvc;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Allow CORS
@@ -30,6 +32,15 @@ var summaries = new[]
     "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
 };
 
+app.MapPost("/github", async (HttpRequest request) =>
+    {
+        var json = await request.ReadFromJsonAsync<string>();
+        Console.WriteLine(json);
+    })
+    .Accepts<string>("application/json")
+    .WithName("GitHubWebhookEndpoint")
+    .WithOpenApi();
+
 app.MapGet("/weatherforecast", () =>
     {
         var forecast = Enumerable.Range(1, 5).Select(index =>
@@ -45,13 +56,7 @@ app.MapGet("/weatherforecast", () =>
     .WithName("GetWeatherForecast")
     .WithOpenApi();
 
-app.MapPost("/github", async context =>
-    {
-        var json = await context.Request.ReadFromJsonAsync<Dictionary<string, object>>();
-        Console.WriteLine(json);
-    })
-    .WithName("GitHub Webhook Endpoint")
-    .WithOpenApi();
+
 
 app.Run();
 
