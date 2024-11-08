@@ -1,4 +1,7 @@
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,7 +37,8 @@ var summaries = new[]
 
 app.MapPost("/github", async (HttpRequest request) =>
     {
-        var json = await request.ReadFromJsonAsync<string>();
+        var payload = await request.ReadFromJsonAsync<Dictionary<string, object>>();
+        var json = JsonSerializer.Serialize<Dictionary<string, object>>(payload);
         Console.WriteLine(json);
     })
     .Accepts<string>("application/json")
