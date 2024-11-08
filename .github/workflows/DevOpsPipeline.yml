@@ -1,4 +1,4 @@
-name: TeamWorkflow
+name: DevOpsPipeline
 
 on:
   push:
@@ -26,6 +26,7 @@ jobs:
           file: src/DORAMeter/Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/dora-meter:latest
+          no-cache: true # Force rebuild of image to ensure latest code is used
           
       - name: Update through WatchTower
         run: | # Notice the $ in front of the variable - it's neccessary because we're in a string
