@@ -45,6 +45,14 @@ app.MapGet("/weatherforecast", () =>
     .WithName("GetWeatherForecast")
     .WithOpenApi();
 
+app.MapPost("/github", async context =>
+    {
+        var json = await context.Request.ReadFromJsonAsync<Dictionary<string, object>>();
+        Console.WriteLine(json);
+    })
+    .WithName("GitHub Webhook Endpoint")
+    .WithOpenApi();
+
 app.Run();
 
 record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
