@@ -34,17 +34,12 @@ jobs:
       - name: Update through WatchTower
         run: | # Notice the $ in front of the variable - it's neccessary because we're in a string
           curl -H "Authorization: Bearer TEMPTOKEN" http://${{ vars.SERVER_IP }}:8888/v1/update
-          
-      - name: Run Docker container with repository mapped
-        run: |
-          sudo apt-get install tree
-          tree ${{ GITHUB.WORKSPACE }}
       
-#    - name: Update databases with Flyway
-#      run: |
-#        docker run --rm \
-#          -v /home/runner/work/DORAMeter/db:/flyway/sql \
-#          -e FLYWAY_URL=jdbc:mariadb://${{ vars.SERVER_IP }}:3306/dora_meter \
-#          -e FLYWAY_USER=dbadmin \
-#          -e FLYWAY_PASSWORD=TogetherCenterExceptThusFew \
-#          flyway/flyway migrate -X
+      - name: Update databases with Flyway
+        run: |
+          docker run --rm \
+            -v ${{ GITHUB.WORKSPACE }}/db:/flyway/sql \
+            -e FLYWAY_URL=jdbc:mariadb://${{ vars.SERVER_IP }}:3306/dora_meter \
+            -e FLYWAY_USER=dbadmin \
+            -e FLYWAY_PASSWORD=TogetherCenterExceptThusFew \
+            flyway/flyway migrate
