@@ -38,6 +38,4 @@ jobs:
             FLYWAY_URL: jdbc:mariadb://${{ vars.SERVER_IP }}:3306/dora_meter
             FLYWAY_USER: dbadmin
             FLYWAY_PASSWORD: TogetherCenterExceptThusFew
-            FLYWAY_SCHEMAS: dora_meter
-            FLYWAY_LOCATIONS: filesystem:/db
-          
+            FLYWAY_LOCATIONS: filesystem:db
