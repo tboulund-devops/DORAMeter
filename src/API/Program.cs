@@ -42,10 +42,7 @@ app.MapPost("/github", async (HttpRequest request) =>
         var payload = await request.ReadFromJsonAsync<Dictionary<string, object>>();
         var json = JsonSerializer.Serialize<Dictionary<string, object>>(payload);
         Console.WriteLine(json);
-        if (payload.ContainsKey("ref"))
-        {
-            new RegisterRepositoryHandler(new SqlConnection("Server=maria-db;Database=dora_meter;User=dbadmin;Password=TogetherCenterExceptThusFew")).Handle(payload);
-        }
+        new RegisterRepositoryHandler(new SqlConnection("Server=maria-db;Database=dora_meter;User=dbadmin;Password=TogetherCenterExceptThusFew")).Handle(payload);
     })
     .Accepts<string>("application/json")
     .WithName("GitHubWebhookEndpoint")
