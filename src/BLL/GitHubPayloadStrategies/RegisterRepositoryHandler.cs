@@ -21,6 +21,14 @@ public class RegisterRepositoryHandler : GitHubPayloadHandler
             {
                 Connection.Execute("INSERT INTO repositories (id, name) VALUES (@Id, @Name)", new { Id = id, Name = name });
             }
+            else
+            {
+                Console.WriteLine("Repository already exists");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Repository not understood as a dictionary");
         }
     }
 }
