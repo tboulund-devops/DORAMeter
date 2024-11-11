@@ -26,6 +26,7 @@ jobs:
           
   deployment:
     runs-on: ubuntu-latest
+    needs: delivery
     steps:
       - name: Update through WatchTower
         run: | # Notice the $ in front of the variable - it's neccessary because we're in a string
@@ -33,4 +34,10 @@ jobs:
           
       - name: Update databases with flyway
         uses: docker://flyway/flyway
+        env:
+            FLYWAY_URL: jdbc:mariadb://${{ vars.SERVER_IP }}:3306/dora_meter
+            FLYWAY_USER: dbadmin
+            FLYWAY_PASSWORD: TogetherCenterExceptThusFew
+            FLYWAY_SCHEMAS: dora_meter
+            FLYWAY_LOCATIONS: filesystem:/db
           
