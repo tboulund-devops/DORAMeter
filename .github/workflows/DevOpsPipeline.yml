@@ -36,7 +36,7 @@ jobs:
       - name: Run Docker container with repository mapped
         run: |
           sudo apt-get install tree
-          tree ${{ github.workspace }}/..
+          tree /
       
 #    - name: Update databases with Flyway
 #      run: |
