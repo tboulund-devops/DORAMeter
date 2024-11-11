@@ -35,11 +35,8 @@ jobs:
           
       - name: Run Docker container with repository mapped
         run: |
-          docker run --rm \
-            -v ${{ github.workspace }}:/workspace \
-            -w /workspace \
-            nginx
-            bash -c "ls -li /workspace"
+          apt-get install tree
+          tree ${{ github.workspace }}
       
 #    - name: Update databases with Flyway
 #      run: |
