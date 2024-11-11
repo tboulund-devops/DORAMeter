@@ -1,45 +1,7 @@
 {
-    "action": "created",
-    "release": {
-        "url": "https://api.github.com/repos/tboulund-devops/DORAMeter/releases/184363323",
-        "assets_url": "https://api.github.com/repos/tboulund-devops/DORAMeter/releases/184363323/assets",
-        "upload_url": "https://uploads.github.com/repos/tboulund-devops/DORAMeter/releases/184363323/assets{?name,label}",
-        "html_url": "https://github.com/tboulund-devops/DORAMeter/releases/tag/ok",
-        "id": 184363323,
-        "author": {
-            "login": "tboulund",
-            "id": 69308037,
-            "node_id": "MDQ6VXNlcjY5MzA4MDM3",
-            "avatar_url": "https://avatars.githubusercontent.com/u/69308037?v=4",
-            "gravatar_id": "",
-            "url": "https://api.github.com/users/tboulund",
-            "html_url": "https://github.com/tboulund",
-            "followers_url": "https://api.github.com/users/tboulund/followers",
-            "following_url": "https://api.github.com/users/tboulund/following{/other_user}",
-            "gists_url": "https://api.github.com/users/tboulund/gists{/gist_id}",
-            "starred_url": "https://api.github.com/users/tboulund/starred{/owner}{/repo}",
-            "subscriptions_url": "https://api.github.com/users/tboulund/subscriptions",
-            "organizations_url": "https://api.github.com/users/tboulund/orgs",
-            "repos_url": "https://api.github.com/users/tboulund/repos",
-            "events_url": "https://api.github.com/users/tboulund/events{/privacy}",
-            "received_events_url": "https://api.github.com/users/tboulund/received_events",
-            "type": "User",
-            "user_view_type": "public",
-            "site_admin": false
-        },
-        "node_id": "RE_kwDONL2aUs4K_Sk7",
-        "tag_name": "ok",
-        "target_commitish": "main",
-        "name": "",
-        "draft": false,
-        "prerelease": false,
-        "created_at": "2024-11-08T11:37:27Z",
-        "published_at": "2024-11-08T13:29:13Z",
-        "assets": [],
-        "tarball_url": "https://api.github.com/repos/tboulund-devops/DORAMeter/tarball/ok",
-        "zipball_url": "https://api.github.com/repos/tboulund-devops/DORAMeter/zipball/ok",
-        "body": ""
-    },
+    "ref": "refs/heads/feature/DatabaseMigrations",
+    "before": "0000000000000000000000000000000000000000",
+    "after": "c52352841ee3680e302b3f4aa8995156a1b03be0",
     "repository": {
         "id": 884841042,
         "node_id": "R_kgDONL2aUg",
@@ -47,6 +9,8 @@
         "full_name": "tboulund-devops/DORAMeter",
         "private": true,
         "owner": {
+            "name": "tboulund-devops",
+            "email": null,
             "login": "tboulund-devops",
             "id": 76437150,
             "node_id": "MDEyOk9yZ2FuaXphdGlvbjc2NDM3MTUw",
@@ -70,7 +34,7 @@
         "html_url": "https://github.com/tboulund-devops/DORAMeter",
         "description": null,
         "fork": false,
-        "url": "https://api.github.com/repos/tboulund-devops/DORAMeter",
+        "url": "https://github.com/tboulund-devops/DORAMeter",
         "forks_url": "https://api.github.com/repos/tboulund-devops/DORAMeter/forks",
         "keys_url": "https://api.github.com/repos/tboulund-devops/DORAMeter/keys{/key_id}",
         "collaborators_url": "https://api.github.com/repos/tboulund-devops/DORAMeter/collaborators{/collaborator}",
@@ -107,18 +71,18 @@
         "labels_url": "https://api.github.com/repos/tboulund-devops/DORAMeter/labels{/name}",
         "releases_url": "https://api.github.com/repos/tboulund-devops/DORAMeter/releases{/id}",
         "deployments_url": "https://api.github.com/repos/tboulund-devops/DORAMeter/deployments",
-        "created_at": "2024-11-07T13:40:18Z",
-        "updated_at": "2024-11-08T11:37:36Z",
-        "pushed_at": "2024-11-08T13:27:24Z",
+        "created_at": 1730986818,
+        "updated_at": "2024-11-11T07:54:37Z",
+        "pushed_at": 1731314993,
         "git_url": "git://github.com/tboulund-devops/DORAMeter.git",
         "ssh_url": "git@github.com:tboulund-devops/DORAMeter.git",
         "clone_url": "https://github.com/tboulund-devops/DORAMeter.git",
         "svn_url": "https://github.com/tboulund-devops/DORAMeter",
         "homepage": null,
-        "size": 890,
+        "size": 902,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "language": "HTML",
+        "language": "C#",
         "has_issues": true,
         "has_projects": true,
         "has_downloads": true,
@@ -129,7 +93,7 @@
         "mirror_url": null,
         "archived": false,
         "disabled": false,
-        "open_issues_count": 1,
+        "open_issues_count": 2,
         "license": null,
         "allow_forking": false,
         "is_template": false,
@@ -137,10 +101,17 @@
         "topics": [],
         "visibility": "private",
         "forks": 0,
-        "open_issues": 1,
+        "open_issues": 2,
         "watchers": 0,
         "default_branch": "main",
+        "stargazers": 0,
+        "master_branch": "main",
+        "organization": "tboulund-devops",
         "custom_properties": {}
+    },
+    "pusher": {
+        "name": "tboulund",
+        "email": "69308037\u002Btboulund@users.noreply.github.com"
     },
     "organization": {
         "login": "tboulund-devops",
@@ -176,5 +147,84 @@
         "type": "User",
         "user_view_type": "public",
         "site_admin": false
+    },
+    "created": true,
+    "deleted": false,
+    "forced": false,
+    "base_ref": null,
+    "compare": "https://github.com/tboulund-devops/DORAMeter/compare/3a1991b51406^...c52352841ee3",
+    "commits": [
+        {
+            "id": "3a1991b514060c2d537624eafbf985077870fc8f",
+            "tree_id": "55139603a88b7309f06211821716279f6c51bf8a",
+            "distinct": true,
+            "message": "Wrote migrations and repeatable data configuration for Flyway",
+            "timestamp": "2024-11-11T09:19:33\u002B01:00",
+            "url": "https://github.com/tboulund-devops/DORAMeter/commit/3a1991b514060c2d537624eafbf985077870fc8f",
+            "author": {
+                "name": "tboulund",
+                "email": "tbmh@easv.dk",
+                "username": "tboulund"
+            },
+            "committer": {
+                "name": "tboulund",
+                "email": "tbmh@easv.dk",
+                "username": "tboulund"
+            },
+            "added": [
+                "db/R__Populate_branch_types_table.sql",
+                "db/V1__Create_repository_table.sql",
+                "db/V2__Create_branch_type_table.sql",
+                "db/V3__Create_branch_table.sql"
+            ],
+            "removed": [],
+            "modified": []
+        },
+        {
+            "id": "c52352841ee3680e302b3f4aa8995156a1b03be0",
+            "tree_id": "ae6efaedbcfb9b39a52da3bdb2f8c21eb1cdfe5b",
+            "distinct": true,
+            "message": "Removed sample\ngit push\n:",
+            "timestamp": "2024-11-11T09:49:29\u002B01:00",
+            "url": "https://github.com/tboulund-devops/DORAMeter/commit/c52352841ee3680e302b3f4aa8995156a1b03be0",
+            "author": {
+                "name": "tboulund",
+                "email": "tbmh@easv.dk",
+                "username": "tboulund"
+            },
+            "committer": {
+                "name": "tboulund",
+                "email": "tbmh@easv.dk",
+                "username": "tboulund"
+            },
+            "added": [],
+            "removed": [
+                "docs/samples/release-ok-created.json"
+            ],
+            "modified": []
+        }
+    ],
+    "head_commit": {
+        "id": "c52352841ee3680e302b3f4aa8995156a1b03be0",
+        "tree_id": "ae6efaedbcfb9b39a52da3bdb2f8c21eb1cdfe5b",
+        "distinct": true,
+        "message": "Removed sample\ngit push\n:",
+        "timestamp": "2024-11-11T09:49:29\u002B01:00",
+        "url": "https://github.com/tboulund-devops/DORAMeter/commit/c52352841ee3680e302b3f4aa8995156a1b03be0",
+        "author": {
+            "name": "tboulund",
+            "email": "tbmh@easv.dk",
+            "username": "tboulund"
+        },
+        "committer": {
+            "name": "tboulund",
+            "email": "tbmh@easv.dk",
+            "username": "tboulund"
+        },
+        "added": [],
+        "removed": [
+            "docs/samples/release-ok-created.json"
+        ],
+        "modified": []
     }
 }
