@@ -28,15 +28,17 @@ jobs:
     runs-on: ubuntu-latest
     needs: delivery
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+          
       - name: Update through WatchTower
         run: | # Notice the $ in front of the variable - it's neccessary because we're in a string
           curl -H "Authorization: Bearer TEMPTOKEN" http://${{ vars.SERVER_IP }}:8888/v1/update
           
-          
       - name: Run Docker container with repository mapped
         run: |
           sudo apt-get install tree
-          tree /
+          tree ${{ GITHUB_WORKSPACE }}
       
 #    - name: Update databases with Flyway
 #      run: |
