@@ -34,6 +34,7 @@ jobs:
           
       - name: Update databases with Flyway
         run: |
+          ls li ${{ github.workspace }}/db
           docker run --rm \
             -v ${{ github.workspace }}/db:/flyway/sql \
             -e FLYWAY_URL=jdbc:mariadb://${{ vars.SERVER_IP }}:3306/dora_meter \
