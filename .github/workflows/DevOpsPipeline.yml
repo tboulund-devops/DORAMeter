@@ -39,4 +39,4 @@ jobs:
             -e FLYWAY_URL=jdbc:mariadb://${{ vars.SERVER_IP }}:3306/dora_meter \
             -e FLYWAY_USER=dbadmin \
             -e FLYWAY_PASSWORD=TogetherCenterExceptThusFew \
-            flyway/flyway migrate
+            flyway/flyway migrate -X
