@@ -6,9 +6,8 @@ on:
       - main
     
 jobs:
-  integration:
+  delivery:
     runs-on: ubuntu-latest
-    environment: production
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -25,7 +24,13 @@ jobs:
           docker build -t ghcr.io/tboulund-devops/dora-meter-api -f src/API/Dockerfile .
           docker push ghcr.io/tboulund-devops/dora-meter-api
           
+  deployment:
+    runs-on: ubuntu-latest
+    steps:
       - name: Update through WatchTower
         run: | # Notice the $ in front of the variable - it's neccessary because we're in a string
           curl -H "Authorization: Bearer TEMPTOKEN" http://${{ vars.SERVER_IP }}:8888/v1/update
+          
+      - name: Update databases with flyway
+        uses: docker://flyway/flyway
           
