@@ -9,26 +9,18 @@ public class RegisterRepositoryHandler : GitHubPayloadHandler
     {
     }
 
-    public override void Handle(Dictionary<string, object> payload)
+    public override void Handle(dynamic payload)
     {
-        Dictionary<string, object>? repository = payload["repository"] as Dictionary<string, object>;
-        if (repository != null)
+        int id = payload.repository.id;
+        string name = payload.repository.name;
+        var exists = Connection.ExecuteScalar<bool>("SELECT 1 FROM repositories WHERE id = @Id", new { Id = id });
+        if (!exists)
         {
-            var id = (int)repository["id"];
-            var name = repository["full_name"];
-            var exists = Connection.ExecuteScalar<bool>("SELECT 1 FROM repositories WHERE id = @Id", new { Id = id });
-            if (!exists)
-            {
-                Connection.Execute("INSERT INTO repositories (id, name) VALUES (@Id, @Name)", new { Id = id, Name = name });
-            }
-            else
-            {
-                Console.WriteLine("Repository already exists");
-            }
+            Connection.Execute("INSERT INTO repositories (id, name) VALUES (@Id, @Name)", new { Id = id, Name = name });
         }
         else
         {
-            Console.WriteLine("Repository not understood as a dictionary");
+            Console.WriteLine("Repository already exists");
         }
     }
 }

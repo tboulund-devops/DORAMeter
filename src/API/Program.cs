@@ -39,7 +39,7 @@ var summaries = new[]
 
 app.MapPost("/github", async (HttpRequest request) =>
     {
-        var payload = await request.ReadFromJsonAsync<Dictionary<string, object>>();
+        var payload = await request.ReadFromJsonAsync<dynamic>();
         var json = JsonSerializer.Serialize<Dictionary<string, object>>(payload);
         Console.WriteLine(json);
         new RegisterRepositoryHandler(new SqlConnection("Server=maria-db;Database=dora_meter;User=dbadmin;Password=TogetherCenterExceptThusFew")).Handle(payload);

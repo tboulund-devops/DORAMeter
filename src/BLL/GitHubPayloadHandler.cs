@@ -11,5 +11,5 @@ public abstract class GitHubPayloadHandler
         Connection = connection;
     }
     
-    public abstract void Handle(Dictionary<string, object> payload);
+    public abstract void Handle(dynamic payload);
 }
