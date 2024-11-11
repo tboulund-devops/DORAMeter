@@ -17,3 +17,13 @@ services:
     environment:
       - WATCHTOWER_LABEL_ENABLE=true
       - WATCHTOWER_HTTP_API_TOKEN=TEMPTOKEN # TODO: Skift denne
+  
+  maria-db:
+    image: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: lbw|Z_9?15=48>Z8
+      MYSQL_DATABASE: dora_meter
+      MYSQL_USER: dbadmin
+      MYSQL_PASSWORD: TogetherCenterExceptThusFew
+    ports:
+      - "3306:3306"
