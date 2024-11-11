@@ -39,3 +39,5 @@ jobs:
             FLYWAY_USER: dbadmin
             FLYWAY_PASSWORD: TogetherCenterExceptThusFew
             FLYWAY_LOCATIONS: filesystem:${{ GITHUB.WORKSPACE }}/db, filesystem:${{ github.workspace }}/db
+        with:
+          args: "migrate"
