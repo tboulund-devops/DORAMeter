@@ -44,7 +44,7 @@ app.MapPost("/github", async (HttpRequest request) =>
         Console.WriteLine(json);
         if (payload.ContainsKey("ref"))
         {
-            new BranchCreatedHandler(new SqlConnection("Server=maria-db;Database=dora_meter;User=dbadmin;Password=TogetherCenterExceptThusFew")).Handle(payload);
+            new RegisterRepositoryHandler(new SqlConnection("Server=maria-db;Database=dora_meter;User=dbadmin;Password=TogetherCenterExceptThusFew")).Handle(payload);
         }
     })
     .Accepts<string>("application/json")
