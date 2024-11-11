@@ -32,11 +32,20 @@ jobs:
         run: | # Notice the $ in front of the variable - it's neccessary because we're in a string
           curl -H "Authorization: Bearer TEMPTOKEN" http://${{ vars.SERVER_IP }}:8888/v1/update
           
-      - name: Update databases with Flyway
+          
+      - name: Run Docker container with repository mapped
         run: |
           docker run --rm \
-            -v /home/runner/work/DORAMeter/db:/flyway/sql \
-            -e FLYWAY_URL=jdbc:mariadb://${{ vars.SERVER_IP }}:3306/dora_meter \
-            -e FLYWAY_USER=dbadmin \
-            -e FLYWAY_PASSWORD=TogetherCenterExceptThusFew \
-            flyway/flyway migrate -X
+            -v ${{ github.workspace }}:/workspace \
+            -w /workspace \
+            nginx
+            bash -c "ls -li /workspace"
+      
+#    - name: Update databases with Flyway
+#      run: |
+#        docker run --rm \
+#          -v /home/runner/work/DORAMeter/db:/flyway/sql \
+#          -e FLYWAY_URL=jdbc:mariadb://${{ vars.SERVER_IP }}:3306/dora_meter \
+#          -e FLYWAY_USER=dbadmin \
+#          -e FLYWAY_PASSWORD=TogetherCenterExceptThusFew \
+#          flyway/flyway migrate -X
