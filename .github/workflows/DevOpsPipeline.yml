@@ -13,12 +13,13 @@ jobs:
         uses: actions/checkout@v4
         
       - name: Start test database
-        run: docker-compose -f tests/docker-compose.yml up -d
+        run: docker compose -f tests/docker-compose.yml up -d
         
       - name: Run tests
         run: dotnet test tests/unit/UnitTests/UnitTests.csproj
         
   delivery:
+    needs: integration
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
