@@ -1,12 +1,13 @@
+using System.Data;
 using System.Data.SqlClient;
 
 namespace BLL;
 
 public abstract class GitHubPayloadHandler
 {
-    protected SqlConnection Connection;
+    protected IDbConnection Connection;
 
-    public GitHubPayloadHandler(SqlConnection connection)
+    public GitHubPayloadHandler(IDbConnection connection)
     {
         Connection = connection;
     }

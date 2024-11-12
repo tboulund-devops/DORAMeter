@@ -1,0 +1,29 @@
+services:   
+  flyway:
+    image: flyway/flyway
+    environment:
+      FLYWAY_URL: jdbc:mariadb://maria-db:3306/dora_meter
+      FLYWAY_USER: dbadmin
+      FLYWAY_PASSWORD: TogetherCenterExceptThusFew
+    volumes:
+      - ../db:/flyway/sql
+    command: ["migrate"]
+    depends_on: 
+      maria-db:
+        condition: service_healthy
+  
+  maria-db:
+    image: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: lbw|Z_9?15=48>Z8
+      MYSQL_DATABASE: dora_meter
+      MYSQL_USER: dbadmin
+      MYSQL_PASSWORD: TogetherCenterExceptThusFew
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      start_period: 0s
+      interval: 1s
+      timeout: 5s
+      retries: 10
+    ports:
+      - "3306:3306"

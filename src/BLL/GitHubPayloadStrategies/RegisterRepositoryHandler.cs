@@ -1,3 +1,4 @@
+using System.Data;
 using System.Data.SqlClient;
 using Dapper;
 
@@ -5,14 +6,14 @@ namespace BLL.GitHubPayloadStrategies;
 
 public class RegisterRepositoryHandler : GitHubPayloadHandler
 {
-    public RegisterRepositoryHandler(SqlConnection connection) : base(connection)
+    public RegisterRepositoryHandler(IDbConnection connection) : base(connection)
     {
     }
 
     public override void Handle(dynamic payload)
     {
         int id = payload.repository.id;
-        string name = payload.repository.name;
+        string name = payload.repository.full_name;
         var exists = Connection.ExecuteScalar<bool>("SELECT 1 FROM repositories WHERE id = @Id", new { Id = id });
         if (!exists)
         {
