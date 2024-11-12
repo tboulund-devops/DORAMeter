@@ -50,7 +50,8 @@ public class GitHubPayloadTests
         dynamic payload2 = GetPushPayload("feature/Dashboard", "tboulund-devops/DORAMeter");
         
         // Act
-        router.Process(payload);
+        router.Process(payload1);
+        router.Process(payload2);
         
         // Assert
         Assert.That(connection.ExecuteScalar<int>("SELECT COUNT(*) FROM repositories"), Is.EqualTo(1));
