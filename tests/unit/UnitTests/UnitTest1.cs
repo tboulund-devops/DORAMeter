@@ -41,6 +41,7 @@ public class GitHubPayloadTests
         Assert.AreEqual(1, connection.ExecuteScalar<int>("SELECT COUNT(*) FROM branches WHERE name = @BranchName AND branch_type_id = @BranchType", new { BranchName = "feature/DatabaseMigrations", BranchType = RegisterBranchHandler.BranchTypes.Feature }));
     }
 
+    [Test]
     public void DoublePushReceivedSameRepository()
     {
         // Arrange
