@@ -8,15 +8,16 @@ public class GitHubPayloadRouter
 {
     private static IDbConnection _connection = new MySqlConnection("Server=localhost;Database=dora_meter;User=dbadmin;Password=TogetherCenterExceptThusFew");
     private static GitHubPayloadRouter? _instance;
-    
+
     private GitHubPayloadRouter()
-    { }
+    {
+        _connection.Open();
+    }
     
     public static GitHubPayloadRouter Instance => _instance ??= new GitHubPayloadRouter();
 
     public void Process(dynamic payload)
     {
-        _connection.Open();
         using var transaction = _connection.BeginTransaction();
         
         try
