@@ -11,7 +11,8 @@ public class GitHubPayloadTests
     [SetUp]
     public void Setup()
     {
-        using var connection = new MySqlConnection("Server=localhost;Database=dora_meter;User=dbadmin;Password=TogetherCenterExceptThusFew");
+        Console.WriteLine("Server=localhost;Database=dora_meter;User=dbadmin;Password=TogetherCenterExceptThusFew");
+        using var connection = new MySqlConnection("Server=maria-db;Database=dora_meter;User=dbadmin;Password=TogetherCenterExceptThusFew");
         connection.Open();
         
         using var transaction = connection.BeginTransaction();
