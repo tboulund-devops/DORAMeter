@@ -90,7 +90,7 @@ services:
     image: mcr.microsoft.com/dotnet/sdk:8.0
     working_dir: /app
     volumes:
-      - .:/app:ro # Read-only to avoid build affecting the host
+      - .:/app # Read-only to avoid build affecting the host
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     command: dotnet test tests/integration/IntegrationTests/IntegrationTests.csproj
