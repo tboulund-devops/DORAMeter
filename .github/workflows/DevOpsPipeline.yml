@@ -27,6 +27,12 @@ jobs:
       - name: Run tests
         run: dotnet test tests/unit/UnitTests/UnitTests.csproj
         
+      - name: Execute static code analysis
+        uses: sonarsource/sonarqube-quality-gate-action@master # Fails if quality gates are not met - if no quality gates wanted use sonarsource/sonarqube-scan-action@v3 in stead
+        env:
+          SONAR_TOKEN: sqp_be41d4cb66ef65a91427fd51e0e47d21f1b2913b # TODO: Move to secret
+          SONAR_HOST_URL: ${{ vars.SERVER_IP }}:9000
+        
   delivery:
     needs: integration
     runs-on: ubuntu-latest
