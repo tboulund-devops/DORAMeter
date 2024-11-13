@@ -44,8 +44,6 @@ public class GitHubPayloadTests
     [Test]
     public void DoublePushReceivedSameRepository()
     {
-        Assert.That(true, Is.False);
-        
         // Arrange
         var connection = new MySqlConnection("Server=maria-db;Database=dora_meter;User=dbadmin;Password=TogetherCenterExceptThusFew");
         var router = GitHubPayloadRouter.Instance;
