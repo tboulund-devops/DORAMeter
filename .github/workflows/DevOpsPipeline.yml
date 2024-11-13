@@ -22,7 +22,7 @@ jobs:
             ${{ runner.os }}-buildx-
         
       - name: Run integration tests
-        run: docker compose run --rm integration-tests
+        run: docker compose run --rm integration-test
         
       - name: Execute static code analysis
         uses: sonarsource/sonarqube-quality-gate-action@master # Fails if quality gates are not met - if no quality gates wanted use sonarsource/sonarqube-scan-action@v3 in stead
