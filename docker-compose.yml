@@ -18,6 +18,8 @@ services:
       - SONAR_JDBC_URL=jdbc:postgresql://sonar-db:5432/sonarqube
       - SONAR_JDBC_USERNAME=sonar
       - SONAR_JDBC_PASSWORD=sonar
+      - SONAR_ES_JAVA_OPTS=-Xmx1g -Xms512m
+      - SONAR_JAVA_OPTS=-Xmx1g -Xms512m
     depends_on:
       - sonar-db
   
