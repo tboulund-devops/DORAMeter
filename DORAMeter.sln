@@ -4,7 +4,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "src\API\API.csproj",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BLL", "src\BLL\BLL.csproj", "{C8CA7F24-437A-4C2F-8B26-615F10F3A60E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "tests\unit\UnitTests\UnitTests.csproj", "{9A760F74-6566-4FFB-8BF7-24294EC88787}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationTests", "tests\integration\IntegrationTests\IntegrationTests.csproj", "{9A760F74-6566-4FFB-8BF7-24294EC88787}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -37,8 +37,8 @@ public class GitHubPayloadTests
         router.Process(payload);
         
         // Assert
-        Assert.AreEqual(1, connection.ExecuteScalar<int>("SELECT COUNT(*) FROM repositories WHERE name = @RepositoryName", new { RepositoryName = "tboulund-devops/DORAMeter" }));
-        Assert.AreEqual(1, connection.ExecuteScalar<int>("SELECT COUNT(*) FROM branches WHERE name = @BranchName AND branch_type_id = @BranchType", new { BranchName = "feature/DatabaseMigrations", BranchType = RegisterBranchHandler.BranchTypes.Feature }));
+        Assert.That(connection.ExecuteScalar<int>("SELECT COUNT(*) FROM repositories WHERE name = @RepositoryName", new { RepositoryName = "tboulund-devops/DORAMeter" }), Is.EqualTo(1));
+        Assert.That(connection.ExecuteScalar<int>("SELECT COUNT(*) FROM branches WHERE name = @BranchName AND branch_type_id = @BranchType", new { BranchName = "feature/DatabaseMigrations", BranchType = RegisterBranchHandler.BranchTypes.Feature }), Is.EqualTo(1));
     }
 
     [Test]
