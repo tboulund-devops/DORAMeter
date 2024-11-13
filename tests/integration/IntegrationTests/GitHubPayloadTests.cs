@@ -11,7 +11,7 @@ public class GitHubPayloadTests
     [SetUp]
     public void Setup()
     {
-        using var connection = new MySqlConnection("Server=localhost;Database=dora_meter;User=dbadmin;Password=TogetherCenterExceptThusFew");
+        using var connection = new MySqlConnection("Server=maria-db;Database=dora_meter;User=dbadmin;Password=TogetherCenterExceptThusFew");
         connection.Open();
         
         using var transaction = connection.BeginTransaction();
@@ -29,7 +29,7 @@ public class GitHubPayloadTests
     public void SinglePushReceived()
     {
         // Arrange
-        var connection = new MySqlConnection("Server=localhost;Database=dora_meter;User=dbadmin;Password=TogetherCenterExceptThusFew");
+        var connection = new MySqlConnection("Server=maria-db;Database=dora_meter;User=dbadmin;Password=TogetherCenterExceptThusFew");
         var router = GitHubPayloadRouter.Instance;
         dynamic payload = GetPushPayload("feature/DatabaseMigrations", "tboulund-devops/DORAMeter");
         
@@ -44,8 +44,10 @@ public class GitHubPayloadTests
     [Test]
     public void DoublePushReceivedSameRepository()
     {
+        Assert.That(true, Is.False);
+        
         // Arrange
-        var connection = new MySqlConnection("Server=localhost;Database=dora_meter;User=dbadmin;Password=TogetherCenterExceptThusFew");
+        var connection = new MySqlConnection("Server=maria-db;Database=dora_meter;User=dbadmin;Password=TogetherCenterExceptThusFew");
         var router = GitHubPayloadRouter.Instance;
         dynamic payload1 = GetPushPayload("feature/DatabaseMigrations", "tboulund-devops/DORAMeter");
         dynamic payload2 = GetPushPayload("feature/Dashboard", "tboulund-devops/DORAMeter");

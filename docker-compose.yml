@@ -46,11 +46,27 @@ services:
     environment:
       - WATCHTOWER_LABEL_ENABLE=true
       - WATCHTOWER_HTTP_API_TOKEN=TEMPTOKEN # TODO: Skift denne
+      
+  flyway:
+    profiles:
+      - test
+    image: flyway/flyway
+    environment:
+      FLYWAY_URL: jdbc:mariadb://maria-db:3306/dora_meter
+      FLYWAY_USER: dbadmin
+      FLYWAY_PASSWORD: TogetherCenterExceptThusFew
+    volumes:
+      - ./db:/flyway/sql
+    command: [ "migrate" ]
+    depends_on:
+      maria-db:
+        condition: service_healthy
   
   maria-db:
     profiles:
       - application
       - storage
+      - test
     image: mariadb
     environment:
       MYSQL_ROOT_PASSWORD: lbw|Z_9?15=48>Z8
@@ -59,8 +75,30 @@ services:
       MYSQL_PASSWORD: TogetherCenterExceptThusFew
     ports:
       - "3306:3306"
+    healthcheck:
+      test: [ "CMD", "healthcheck.sh", "--connect", "--innodb_initialized" ]
+      start_period: 0s
+      interval: 1s
+      timeout: 5s
+      retries: 10
     volumes:
       - db-data:/var/lib/mysql
+        
+  integration-test:
+    profiles:
+      - test
+    image: mcr.microsoft.com/dotnet/sdk:8.0
+    working_dir: /app
+    volumes:
+      - .:/app:ro # Read-only to avoid build affecting the host
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    command: dotnet test tests/integration/IntegrationTests/IntegrationTests.csproj
+    depends_on:
+      maria-db:
+        condition: service_healthy
+      flyway:
+        condition: service_started
     
 volumes: 
   db-data:

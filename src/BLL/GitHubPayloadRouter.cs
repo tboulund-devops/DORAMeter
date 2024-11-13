@@ -6,7 +6,7 @@ namespace DefaultNamespace;
 
 public class GitHubPayloadRouter
 {
-    private static IDbConnection _connection = new MySqlConnection("Server=localhost;Database=dora_meter;User=dbadmin;Password=TogetherCenterExceptThusFew");
+    private static IDbConnection _connection = new MySqlConnection("Server=maria-db;Database=dora_meter;User=dbadmin;Password=TogetherCenterExceptThusFew");
     private static GitHubPayloadRouter? _instance;
 
     private GitHubPayloadRouter()

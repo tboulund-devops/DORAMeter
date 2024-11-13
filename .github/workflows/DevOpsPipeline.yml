@@ -21,11 +21,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-buildx-
         
-      - name: Start test database
-        run: docker compose -f tests/docker-compose.yml up -d
-        
-      - name: Run tests
-        run: dotnet test tests/unit/UnitTests/UnitTests.csproj
+      - name: Run integration tests
+        run: docker compose run --rm integration-tests
         
       - name: Execute static code analysis
         uses: sonarsource/sonarqube-quality-gate-action@master # Fails if quality gates are not met - if no quality gates wanted use sonarsource/sonarqube-scan-action@v3 in stead
