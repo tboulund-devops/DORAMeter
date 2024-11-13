@@ -13,6 +13,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Cache MariaDB Docker image
+        uses: actions/cache@v3
+        with:
+          path: /tmp/mariadb-image.tar
+          key: mariadb-image-${{ runner.os }}-${{ hashFiles('Dockerfile') }} # key based on the Dockerfile or other criteria
+          restore-keys: |
+            mariadb-image-${{ runner.os }}-
+
       - name: Pull MariaDB Docker image if not cached
         run: |
           if [ ! -f /tmp/mariadb-image.tar ]; then
@@ -23,14 +31,6 @@ jobs:
             echo "Image found in cache, loading from cache..."
             docker load -i /tmp/mariadb-image.tar
           fi
-          
-      - name: Cache MariaDB Docker image
-        uses: actions/cache@v3
-        with:
-          path: /tmp/mariadb-image.tar
-          key: mariadb-image-${{ runner.os }}-${{ hashFiles('Dockerfile') }} # key based on the Dockerfile or other criteria
-          restore-keys: |
-            mariadb-image-${{ runner.os }}-
         
       - name: Run integration tests
         run: docker compose run --rm integration-test
