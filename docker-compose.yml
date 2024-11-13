@@ -25,7 +25,7 @@ services:
   flyway:
     profiles:
       - test
-    image: flyway/flyway:10
+    image: flyway/flyway
     environment:
       FLYWAY_URL: jdbc:mariadb://maria-db:3306/dora_meter
       FLYWAY_USER: dbadmin
