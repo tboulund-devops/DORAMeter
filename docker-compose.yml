@@ -50,7 +50,7 @@ services:
   flyway:
     profiles:
       - test
-    image: flyway/flyway
+    image: flyway/flyway:10
     environment:
       FLYWAY_URL: jdbc:mariadb://maria-db:3306/dora_meter
       FLYWAY_USER: dbadmin
@@ -61,13 +61,12 @@ services:
     depends_on:
       maria-db:
         condition: service_healthy
-  
   maria-db:
     profiles:
       - application
       - storage
       - test
-    image: mariadb
+    image: mariadb:11.5
     environment:
       MYSQL_ROOT_PASSWORD: lbw|Z_9?15=48>Z8
       MYSQL_DATABASE: dora_meter

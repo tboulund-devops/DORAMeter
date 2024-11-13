@@ -13,23 +13,23 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Cache MariaDB Docker image
+      - name: Cache docker images for test # The cache action can check for the existence of the cache before running steps that require those dependencies. It will restore the cache first if it exists, so subsequent steps that need those files (e.g., installing dependencies or building) can be skipped or speeded up.
         uses: actions/cache@v3
         with:
-          path: /tmp/mariadb-image.tar
-          key: mariadb-image-${{ runner.os }}-${{ hashFiles('Dockerfile') }} # key based on the Dockerfile or other criteria
-          restore-keys: |
-            mariadb-image-${{ runner.os }}-
+          path: /tmp/test-images.tar
+          key: test-images
 
       - name: Pull MariaDB Docker image if not cached
         run: |
-          if [ ! -f /tmp/mariadb-image.tar ]; then
+          if [ ! -f /tmp/test-images.tar ]; then
             echo "Image not found in cache, pulling from Docker Hub..."
-            docker pull mariadb:latest
-            docker save mariadb:latest -o /tmp/mariadb-image.tar
+            docker pull mariadb:11.5
+            docker pull mcr.microsoft.com/dotnet/sdk:8.0
+            docker pull flyway/flyway:10
+            docker save -o /tmp/test-images.tar mariadb:11.5 mcr.microsoft.com/dotnet/sdk:8.0 flyway/flyway:10
           else
             echo "Image found in cache, loading from cache..."
-            docker load -i /tmp/mariadb-image.tar
+            docker load -i /tmp/test-images.tar
           fi
         
       - name: Run integration tests
