@@ -11,9 +11,6 @@ public class Branch
     public DateTime? DeployedDate { get; set; }
     public bool IsFailure { get; set; }
 
-    public Branch()
-    { }
-
     public Branch(string name, int repositoryId, BranchType branchTypeId, DateTime firstCommit)
     {
         Name = name;
