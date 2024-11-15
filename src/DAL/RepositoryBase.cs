@@ -4,9 +4,9 @@ using MySql.Data.MySqlClient;
 
 namespace DAL;
 
-internal static class ConnectionFactory
+public abstract class RepositoryBase
 {
-    internal static IDbConnection CreateConnection()
+    protected IDbConnection OpenConnection()
     {
         DefaultTypeMap.MatchNamesWithUnderscores = true;
         
