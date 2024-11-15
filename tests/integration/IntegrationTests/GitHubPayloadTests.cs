@@ -1,6 +1,7 @@
 using BLL.GitHubPayloadStrategies;
 using Dapper;
 using DefaultNamespace;
+using Models;
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json.Linq;
 
@@ -38,7 +39,7 @@ public class GitHubPayloadTests
         
         // Assert
         Assert.That(connection.ExecuteScalar<int>("SELECT COUNT(*) FROM repositories WHERE name = @RepositoryName", new { RepositoryName = "tboulund-devops/DORAMeter" }), Is.EqualTo(1));
-        Assert.That(connection.ExecuteScalar<int>("SELECT COUNT(*) FROM branches WHERE name = @BranchName AND branch_type_id = @BranchType", new { BranchName = "feature/DatabaseMigrations", BranchType = RegisterBranchHandler.BranchTypes.Feature }), Is.EqualTo(1));
+        Assert.That(connection.ExecuteScalar<int>("SELECT COUNT(*) FROM branches WHERE name = @BranchName AND branch_type_id = @BranchType", new { BranchName = "feature/DatabaseMigrations", BranchType = BranchType.Feature }), Is.EqualTo(1));
     }
 
     [Test]
