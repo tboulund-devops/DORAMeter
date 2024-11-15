@@ -35,8 +35,8 @@ public class GitHubPayloadRouter
             {
                 new RegisterSuccessfulDeploymentHandler().Handle(payload);
             }
-
-            transaction.Complete();
         }
+
+        transaction.Complete();
     }
 }
