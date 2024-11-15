@@ -11,7 +11,7 @@ public abstract class RepositoryBase
         DefaultTypeMap.MatchNamesWithUnderscores = true;
         
         var connection = new MySqlConnection("Server=maria-db;Database=dora_meter;User=dbadmin;Password=TogetherCenterExceptThusFew");
-        connection.Open();
+        if(connection.State != ConnectionState.Open) connection.Open();
         return connection;
     }
 }
