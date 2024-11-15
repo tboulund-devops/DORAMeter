@@ -1,7 +1,16 @@
 namespace Models;
 
-public class Repository(int id, string name)
+public class Repository
 {
-    public int Id { get; set; } = id;
-    public string Name { get; set; } = name;
+    public int Id { get; set; }
+    public string Name { get; set; }
+    
+    public Repository() : this(0, string.Empty)
+    { }
+
+    public Repository(int id, string name)
+    {
+        Id = id;
+        Name = name;
+    }
 }
