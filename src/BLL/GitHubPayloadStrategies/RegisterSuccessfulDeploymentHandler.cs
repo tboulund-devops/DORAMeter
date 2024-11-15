@@ -1,22 +1,19 @@
-using System.Data;
-using BLL;
-using Dapper;
+using DAL;
 
-namespace DefaultNamespace;
+namespace BLL.GitHubPayloadStrategies;
 
 public class RegisterSuccessfulDeploymentHandler : GitHubPayloadHandler
 {
-    public RegisterSuccessfulDeploymentHandler(IDbConnection connection) : base(connection)
-    {
-    }
-
+    private readonly BranchRepository _branchRepository = new BranchRepository();
+    private readonly DeploymentRepository _deploymentRepository = new DeploymentRepository();
+    
     public override void Handle(dynamic payload)
     {
         int repositoryId = payload.repository.id;
         DateTime startDate = DateTime.Parse(payload.workflow_run.created_at.ToString());
         DateTime endDate = DateTime.Parse(payload.workflow_run.updated_at.ToString());
-        
-        Connection.Execute("INSERT INTO deployments (start_date, end_date) VALUES (@StartDate, @EndDate)", new { StartDate = startDate, EndDate = endDate });
-        Connection.Execute("UPDATE branches SET deployed_date = @EndDate WHERE closed_date IS NOT NULL AND repository_id = @RepositoryId", new { EndDate = endDate, RepositoryId = repositoryId });
+
+        _deploymentRepository.RegisterDeployment(startDate, endDate);
+        _branchRepository.MarkClosedBranchesAsDeployed(repositoryId, endDate);
     }
 }

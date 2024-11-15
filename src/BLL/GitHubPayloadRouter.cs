@@ -22,20 +22,20 @@ public class GitHubPayloadRouter
         
         try
         {
-            new RegisterRepositoryHandler(_connection).Handle(payload);
+            new RegisterRepositoryHandler().Handle(payload);
             if(payload.@ref != null)
             {
-                new RegisterBranchHandler(_connection).Handle(payload);
+                new RegisterBranchHandler().Handle(payload);
             }
 
             if (payload.pull_request != null && payload.pull_request.merged == true && payload.action == "closed")
             {
-                new RegisterPullRequestClosedAndMergedHandler(_connection).Handle(payload);
+                new RegisterPullRequestClosedAndMergedHandler().Handle(payload);
             }
             
             if(payload.deployment_status?.state == "success")
             {
-                new RegisterSuccessfulDeploymentHandler(_connection).Handle(payload);
+                new RegisterSuccessfulDeploymentHandler().Handle(payload);
             }
             transaction.Commit();
         }

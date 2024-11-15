@@ -6,6 +6,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BLL", "src\BLL\BLL.csproj",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationTests", "tests\integration\IntegrationTests\IntegrationTests.csproj", "{9A760F74-6566-4FFB-8BF7-24294EC88787}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "src\DAL\DAL.csproj", "{45F1FAB7-547E-4D4A-85E9-6841D912ED06}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "src\Models\Models.csproj", "{920B6BA4-05CB-472E-A2CC-63715375B65D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +28,13 @@ Global
 		{9A760F74-6566-4FFB-8BF7-24294EC88787}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9A760F74-6566-4FFB-8BF7-24294EC88787}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9A760F74-6566-4FFB-8BF7-24294EC88787}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45F1FAB7-547E-4D4A-85E9-6841D912ED06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45F1FAB7-547E-4D4A-85E9-6841D912ED06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45F1FAB7-547E-4D4A-85E9-6841D912ED06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45F1FAB7-547E-4D4A-85E9-6841D912ED06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{920B6BA4-05CB-472E-A2CC-63715375B65D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{920B6BA4-05CB-472E-A2CC-63715375B65D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{920B6BA4-05CB-472E-A2CC-63715375B65D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{920B6BA4-05CB-472E-A2CC-63715375B65D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
