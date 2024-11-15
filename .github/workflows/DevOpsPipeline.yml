@@ -43,8 +43,10 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }} # Automatically assigned by GitHub Actions
 
       - name: Build and push Docker image
+        # docker buildx build --platform linux/amd64/v3 -t ghcr.io/tboulund-devops/dora-meter-api -f src/API/Dockerfile .
+
         run: | # Notice the platform flag - it's neccessary because we're using buildx and building on a different platform than the target platform that'll run the application
-          docker buildx build --platform linux/amd64/v3 -t ghcr.io/tboulund-devops/dora-meter-api -f src/API/Dockerfile .
+          docker build -t ghcr.io/tboulund-devops/dora-meter-api -f src/API/Dockerfile .
           docker push ghcr.io/tboulund-devops/dora-meter-api
           
   deployment:
