@@ -1,4 +1,6 @@
+using System.Transactions;
 using BLL.GitHubPayloadStrategies;
+using DAL;
 using Dapper;
 using DefaultNamespace;
 using Models;
@@ -9,13 +11,15 @@ namespace UnitTests;
 
 public class GitHubPayloadTests
 {
+    private RepositoryRepository _repositoryRepository = new();
+    private BranchRepository _branchRepository = new();
+    private DeploymentRepository _deploymentRepository = new();
+    
     [SetUp]
     public void Setup()
     {
-        using var connection = new MySqlConnection("Server=maria-db;Database=dora_meter;User=dbadmin;Password=TogetherCenterExceptThusFew");
-        connection.Open();
-        
-        using var transaction = connection.BeginTransaction();
+        using var connection = RepositoryBase.OpenConnection();
+        using var transaction = new TransactionScope();
 
         connection.Execute("SET FOREIGN_KEY_CHECKS = 0;");
         connection.Execute("TRUNCATE TABLE branches");
@@ -23,67 +27,107 @@ public class GitHubPayloadTests
         connection.Execute("TRUNCATE TABLE repositories");
         connection.Execute("SET FOREIGN_KEY_CHECKS = 1;");
         
-        transaction.Commit();
+        transaction.Complete();
     }
 
     [Test]
-    public void SinglePushReceived()
+    public void SinglePushReceivedTest()
     {
         // Arrange
-        var connection = new MySqlConnection("Server=maria-db;Database=dora_meter;User=dbadmin;Password=TogetherCenterExceptThusFew");
-        var router = GitHubPayloadRouter.Instance;
-        dynamic payload = GetPushPayload("feature/DatabaseMigrations", "tboulund-devops/DORAMeter");
+        var repositoryName = "tboulund-devops/DORAMeter";
+        var branchName = "feature/DatabaseMigrations";
+        dynamic payload = GetPushPayload(branchName, repositoryName);
         
         // Act
-        router.Process(payload);
+        GitHubPayloadRouter.Instance.Process(payload);
         
         // Assert
-        Assert.That(connection.ExecuteScalar<int>("SELECT COUNT(*) FROM repositories WHERE name = @RepositoryName", new { RepositoryName = "tboulund-devops/DORAMeter" }), Is.EqualTo(1));
-        Assert.That(connection.ExecuteScalar<int>("SELECT COUNT(*) FROM branches WHERE name = @BranchName AND branch_type_id = @BranchType", new { BranchName = "feature/DatabaseMigrations", BranchType = BranchType.Feature }), Is.EqualTo(1));
+        var repositories = _repositoryRepository.GetAll();
+        var branches = _branchRepository.GetAll();
+        Assert.Multiple(() =>
+        {
+            Assert.That(repositories, Has.Count.EqualTo(1), "Expected the database to contain only one repository after processing one push payload.");
+            Assert.That(branches, Has.Count.EqualTo(1), "Expected the database to contain only one branch after processing one push payload.");
+        });
+
+        var repository = repositories.Single();
+        var branch = branches.Single();
+        Assert.Multiple(() =>
+        {
+            Assert.That(repository.Name, Is.EqualTo(repositoryName));
+            Assert.That(branch.Name, Is.EqualTo(branchName));
+            Assert.That(branch.Type, Is.EqualTo(BranchType.Feature));
+        });
     }
 
     [Test]
-    public void DoublePushReceivedSameRepository()
+    public void DoublePushReceivedSameRepositoryTest()
     {
         // Arrange
-        var connection = new MySqlConnection("Server=maria-db;Database=dora_meter;User=dbadmin;Password=TogetherCenterExceptThusFew");
-        var router = GitHubPayloadRouter.Instance;
-        dynamic payload1 = GetPushPayload("feature/DatabaseMigrations", "tboulund-devops/DORAMeter");
-        dynamic payload2 = GetPushPayload("feature/Dashboard", "tboulund-devops/DORAMeter");
+        var repositoryName = "tboulund-devops/DORAMeter";
+        var branchName1 = "feature/DatabaseMigrations";
+        var branchName2 = "feature/Dashboard";
+        var payload1 = GetPushPayload(branchName1, repositoryName);
+        var payload2 = GetPushPayload(branchName2, repositoryName);
         
         // Act
-        router.Process(payload1);
-        router.Process(payload2);
+        GitHubPayloadRouter.Instance.Process(payload1, payload2);
         
         // Assert
-        Assert.That(connection.ExecuteScalar<int>("SELECT COUNT(*) FROM repositories"), Is.EqualTo(1));
-        Assert.That(connection.ExecuteScalar<int>("SELECT COUNT(*) FROM branches"), Is.EqualTo(2));
+        var repositories = _repositoryRepository.GetAll();
+        var branches = _branchRepository.GetAll();
+        Assert.Multiple(() =>
+        {
+            Assert.That(repositories, Has.Count.EqualTo(1), "Expected the database to contain only one repository after processing two push payloads for same repository.");
+            Assert.That(branches, Has.Count.EqualTo(1), "Expected the database to contain two branches after processing two push payload for different branches on the same repository..");
+        });
+
+        var repository = repositories.Single();
+        var firstBranch = branches.First();
+        var secondBranch = branches.Last();
+        Assert.Multiple(() =>
+        {
+            Assert.That(repository.Name, Is.EqualTo(repositoryName));
+            Assert.That(firstBranch.Name, Is.EqualTo(branchName1));
+            Assert.That(secondBranch.Name, Is.EqualTo(branchName2));
+        });
     }
 
+    [Test]
     public void FailedMarkerTest()
     {
         // Arrange
-        var connection = new MySqlConnection("Server=maria-db;Database=dora_meter;User=dbadmin;Password=TogetherCenterExceptThusFew");
-        var router = GitHubPayloadRouter.Instance;
-        var pushPayload1 = GetPushPayload("feature/DummyFeature", "tboulund-devops/DORAMeter");
-        var pushPayload2 = GetPushPayload("feature/TestFeature", "tboulund-devops/DORAMeter");
-        var prPayload1 = GetPRClosedPayload("feature/DummyFeature", "tboulund-devops/DORAMeter", DateTime.Now);
-        var prPayload2 = GetPRClosedPayload("feature/TestFeature", "tboulund-devops/DORAMeter", DateTime.Now);
-        
-        // Act
-        router.Process(pushPayload1);
-        router.Process(pushPayload2);
-        
-        // Assert
-        Assert.That(connection.ExecuteScalar("SELECT COUNT(*) FROM branches WHERE closed_date IS NULL AND deployed_date IS NULL"), Is.EqualTo(2));
-        
-        // Act
-        router.Process(prPayload1);
-        router.Process(prPayload2);
-        
-        // Assert
-        Assert.That(connection.ExecuteScalar("SELECT COUNT(*) FROM branches WHERE closed_date IS NOT NULL AND deployed_date IS NULL"), Is.EqualTo(2));
+        var repositoryName = "tboulund-devops/DORAMeter";
+        var dummyFeatureBranchName = "feature/DummyFeature";
+        var testFeatureBranchName = "feature/TestFeature";
+        var problemHotfixBranchName = "hotfix/Problem";
 
+        var pushPayload1 = GetPushPayload(dummyFeatureBranchName, repositoryName);
+        var pushPayload2 = GetPushPayload(testFeatureBranchName, repositoryName);
+        var prPayload1 = GetPRClosedPayload(dummyFeatureBranchName, repositoryName, DateTime.Now);
+        var prPayload2 = GetPRClosedPayload(testFeatureBranchName, repositoryName, DateTime.Now);
+        var deployPayload = GetDeploymentPayload(repositoryName, DateTime.Now.AddMinutes(-2), DateTime.Now);
+        var pushBugPayload = GetPushPayload(problemHotfixBranchName, repositoryName);
+        
+        // Act
+        GitHubPayloadRouter.Instance.Process(
+            pushPayload1, pushPayload2, prPayload1, prPayload2, deployPayload, pushBugPayload
+        );
+        
+        // Assert
+        var branches = _branchRepository.GetAll();
+        Assert.That(branches, Has.Count.EqualTo(3), "Expected three branches after three push-payloads with different branches");
+
+        var dummyFeatureBranch = branches.Single(b => b.Name == dummyFeatureBranchName);
+        var testFeatureBranch = branches.Single(b => b.Name == testFeatureBranchName);
+        var problemHotfixBranch = branches.Single(b => b.Name == problemHotfixBranchName);
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(dummyFeatureBranch.IsFailure, Is.False, "Expected the dummy feature branch to not be marked as a failure because it was not the latest branch when hotfix arrived.");
+            Assert.That(testFeatureBranch.IsFailure, Is.True, "Expected the test feature branch to be marked as a failure because it was the latest branch when hotfix arrived.");
+            Assert.That(problemHotfixBranch.IsFailure, Is.False, "Expected the problem hotfix branch to not be marked as a failure because it is the hotfix itself.");
+        });
     }
 
     private dynamic GetPushPayload(string branchName, string repositoryName)

@@ -14,4 +14,10 @@ public class DeploymentRepository : RepositoryBase
         };
         return deployment;
     }
+    
+    public ICollection<Deployment> GetAll()
+    {
+        using var connection = OpenConnection();
+        return connection.Query<Deployment>("SELECT * FROM deployments").ToList();
+    }
 }

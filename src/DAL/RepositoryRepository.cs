@@ -19,4 +19,9 @@ public class RepositoryRepository : RepositoryBase
         return repository;
     }
 
+    public ICollection<Repository> GetAll()
+    {
+        using var connection = OpenConnection();
+        return connection.Query<Repository>("SELECT * FROM repositories").ToList();
+    }
 }

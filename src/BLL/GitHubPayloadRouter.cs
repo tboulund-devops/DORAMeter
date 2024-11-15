@@ -1,4 +1,5 @@
 using System.Data;
+using System.Transactions;
 using BLL.GitHubPayloadStrategies;
 using MySql.Data.MySqlClient;
 
@@ -6,24 +7,21 @@ namespace DefaultNamespace;
 
 public class GitHubPayloadRouter
 {
-    private static IDbConnection _connection = new MySqlConnection("Server=maria-db;Database=dora_meter;User=dbadmin;Password=TogetherCenterExceptThusFew");
     private static GitHubPayloadRouter? _instance;
 
     private GitHubPayloadRouter()
-    {
-        _connection.Open();
-    }
+    { }
     
     public static GitHubPayloadRouter Instance => _instance ??= new GitHubPayloadRouter();
 
-    public void Process(dynamic payload)
+    public void Process(params dynamic[] payloads)
     {
-        using var transaction = _connection.BeginTransaction();
-        
-        try
+        using var transaction = new TransactionScope();
+
+        foreach(var payload in payloads)
         {
             new RegisterRepositoryHandler().Handle(payload);
-            if(payload.@ref != null)
+            if (payload.@ref != null)
             {
                 new RegisterBranchHandler().Handle(payload);
             }
@@ -32,17 +30,13 @@ public class GitHubPayloadRouter
             {
                 new RegisterPullRequestClosedAndMergedHandler().Handle(payload);
             }
-            
-            if(payload.deployment_status?.state == "success")
+
+            if (payload.deployment_status?.state == "success")
             {
                 new RegisterSuccessfulDeploymentHandler().Handle(payload);
             }
-            transaction.Commit();
-        }
-        catch (Exception e)
-        {
-            transaction.Rollback();
-            Console.WriteLine(e);
+
+            transaction.Complete();
         }
     }
 }

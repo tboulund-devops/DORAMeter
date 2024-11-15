@@ -36,4 +36,10 @@ public class BranchRepository : RepositoryBase
         branch.Id = connection.ExecuteScalar<int>("INSERT INTO branches (name, branch_type_id, repository_id, first_commit) VALUES (@Name, @Type, @RepositoryId, @FirstCommit); SELECT LAST_INSERT_ID();", new { Name = branch.Name, Type = branch.Type, RepositoryId = branch.RepositoryId, FirstCommit = branch.FirstCommit });
         return branch;
     }
+
+    public ICollection<Branch> GetAll()
+    {
+        using var connection = OpenConnection();
+        return connection.Query<Branch>("SELECT * FROM branches").ToList();
+    }
 }

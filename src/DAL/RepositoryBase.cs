@@ -6,7 +6,7 @@ namespace DAL;
 
 public abstract class RepositoryBase
 {
-    protected IDbConnection OpenConnection()
+    public static IDbConnection OpenConnection()
     {
         DefaultTypeMap.MatchNamesWithUnderscores = true;
         
