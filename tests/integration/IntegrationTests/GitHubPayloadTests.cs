@@ -49,7 +49,7 @@ public class GitHubPayloadTests
             Assert.That(repositories, Has.Count.EqualTo(1), "Expected the database to contain only one repository after processing one push payload.");
             Assert.That(branches, Has.Count.EqualTo(1), "Expected the database to contain only one branch after processing one push payload.");
         });
-
+    
         var repository = repositories.Single();
         var branch = branches.Single();
         Assert.Multiple(() =>
@@ -59,7 +59,7 @@ public class GitHubPayloadTests
             Assert.That(branch.Type, Is.EqualTo(BranchType.Feature));
         });
     }
-
+    
     [Test]
     public void DoublePushReceivedSameRepositoryTest()
     {
@@ -79,9 +79,9 @@ public class GitHubPayloadTests
         Assert.Multiple(() =>
         {
             Assert.That(repositories, Has.Count.EqualTo(1), "Expected the database to contain only one repository after processing two push payloads for same repository.");
-            Assert.That(branches, Has.Count.EqualTo(1), "Expected the database to contain two branches after processing two push payload for different branches on the same repository..");
+            Assert.That(branches, Has.Count.EqualTo(2), "Expected the database to contain two branches after processing two push payload for different branches on the same repository..");
         });
-
+    
         var repository = repositories.Single();
         var firstBranch = branches.First();
         var secondBranch = branches.Last();
@@ -101,7 +101,7 @@ public class GitHubPayloadTests
         var dummyFeatureBranchName = "feature/DummyFeature";
         var testFeatureBranchName = "feature/TestFeature";
         var problemHotfixBranchName = "hotfix/Problem";
-
+    
         var pushPayload1 = GetPushPayload(dummyFeatureBranchName, repositoryName);
         var pushPayload2 = GetPushPayload(testFeatureBranchName, repositoryName);
         var prPayload1 = GetPRClosedPayload(dummyFeatureBranchName, repositoryName, DateTime.Now);
@@ -117,11 +117,11 @@ public class GitHubPayloadTests
         // Assert
         var branches = _branchRepository.GetAll();
         Assert.That(branches, Has.Count.EqualTo(3), "Expected three branches after three push-payloads with different branches");
-
+    
         var dummyFeatureBranch = branches.Single(b => b.Name == dummyFeatureBranchName);
         var testFeatureBranch = branches.Single(b => b.Name == testFeatureBranchName);
         var problemHotfixBranch = branches.Single(b => b.Name == problemHotfixBranchName);
-
+    
         Assert.Multiple(() =>
         {
             Assert.That(dummyFeatureBranch.IsFailure, Is.False, "Expected the dummy feature branch to not be marked as a failure because it was not the latest branch when hotfix arrived.");

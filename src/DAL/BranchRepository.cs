@@ -14,7 +14,7 @@ public class BranchRepository : RepositoryBase
     public void MarkPreviousFeatureBranchAsFailure(int repositoryId)
     {
         using var connection = OpenConnection();
-        connection.Execute("UPDATE branches SET is_failure = 1 WHERE repository_id = @RepositoryId AND branch_type_id = @BranchType AND deployed_date IS NOT NULL ORDER BY deployed_date DESC LIMIT 1", new { RepositoryId = repositoryId, BranchType = BranchType.Feature });
+        connection.Execute("UPDATE branches SET is_failure = 1 WHERE repository_id = @RepositoryId AND type = @BranchType AND deployed_date IS NOT NULL ORDER BY id DESC LIMIT 1", new { RepositoryId = repositoryId, BranchType = BranchType.Feature }); // Ordering by ID is more safe if multiple branches are deployed at the same time - which they sometimes are.
     }
 
     public void MarkBranchAsClosed(string branchName, int repositoryId, DateTime closedDate)
@@ -33,7 +33,7 @@ public class BranchRepository : RepositoryBase
     {
         using var connection = OpenConnection();
         var branch = new Branch(branchName, repositoryId, branchType, firstCommit);
-        branch.Id = connection.ExecuteScalar<int>("INSERT INTO branches (name, branch_type_id, repository_id, first_commit) VALUES (@Name, @Type, @RepositoryId, @FirstCommit); SELECT LAST_INSERT_ID();", new { Name = branch.Name, Type = branch.Type, RepositoryId = branch.RepositoryId, FirstCommit = branch.FirstCommit });
+        branch.Id = connection.ExecuteScalar<int>("INSERT INTO branches (name, type, repository_id, first_commit) VALUES (@Name, @Type, @RepositoryId, @FirstCommit); SELECT LAST_INSERT_ID();", new { Name = branch.Name, Type = branch.Type, RepositoryId = branch.RepositoryId, FirstCommit = branch.FirstCommit });
         return branch;
     }
 

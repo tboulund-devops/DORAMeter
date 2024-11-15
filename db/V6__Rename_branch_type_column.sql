@@ -1,0 +1,1 @@
+ALTER TABLE branches RENAME COLUMN branch_type_id TO type;
