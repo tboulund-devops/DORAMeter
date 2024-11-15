@@ -11,11 +11,14 @@ public class Branch
     public DateTime? DeployedDate { get; set; }
     public bool IsFailure { get; set; }
 
-    public Branch(string name, int repositoryId, BranchType type, DateTime firstCommit)
+    public Branch()
+    { }
+
+    public Branch(string name, int repositoryId, BranchType branchTypeId, DateTime firstCommit)
     {
         Name = name;
         RepositoryId = repositoryId;
-        Type = type;
+        Type = branchTypeId;
         FirstCommit = firstCommit;
     }
 
